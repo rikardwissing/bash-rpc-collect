@@ -1,14 +1,15 @@
 #!/bin/bash
 
 FILENAME=$(date +%Y%m%d%H%M%S).json
-echo $FILENAME >> index
+mkdir -p ./data
+echo $FILENAME >> ./data/index
 
 rpcCommands=( getpeerinfo getmininginfo getconnectioncount getmempoolinfo getblockcount getnetworkinfo getnettotals )
 
 for command in "${rpcCommands[@]}"
 do
 	echo $command
-	mkdir -p ./$command
-	/opt/coins/nodes/myriad/bin/myriadcoin-cli -rpcuser=rpc -rpcpassword=rpc -rpcport=8043 $command > ./$command/$FILENAME
-	cp ./$command/$FILENAME ./$command/latest.json
+	mkdir -p ./data/$command
+	/opt/coins/nodes/myriad/bin/myriadcoin-cli -rpcuser=rpc -rpcpassword=rpc -rpcport=8043 $command > ./data/$command/$FILENAME
+	cp ./data/$command/$FILENAME ./data/$command/latest.json
 done
