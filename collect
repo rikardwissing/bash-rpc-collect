@@ -9,8 +9,9 @@ rpcCommands=( getpeerinfo getmininginfo getconnectioncount getmempoolinfo getblo
 for command in "${rpcCommands[@]}"
 do
 	echo $command
-	mkdir -p ./data/$command
-	/opt/coins/nodes/myriad/bin/myriadcoin-cli -rpcuser=rpc -rpcpassword=rpc -rpcport=8043 $command > ./data/hourly/$command/$FILENAME_H
-	/opt/coins/nodes/myriad/bin/myriadcoin-cli -rpcuser=rpc -rpcpassword=rpc -rpcport=8043 $command > ./data/daily/$command/$FILENAME_D
-	cp ./data/$command/$FILENAME ./data/$command/latest.json
+	mkdir -p ./data/$command/hourly
+	mkdir -p ./data/$command/daily
+	/opt/coins/nodes/myriad/bin/myriadcoin-cli -rpcuser=rpc -rpcpassword=rpc -rpcport=8043 $command > ./data/$command/hourly/$FILENAME_H
+        cp ./data/$command/hourly/$FILENAME_H ./data/$command/daily/$FILENAME_D
+	cp ./data/$command/hourly/$FILENAME_H ./data/$command/latest.json
 done
