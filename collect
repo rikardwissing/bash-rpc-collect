@@ -1,0 +1,14 @@
+#!/bin/bash
+
+FILENAME=$(date +%Y%m%d%H%M%S).json
+echo $FILENAME >> index
+
+rpcCommands=( getpeerinfo getmininginfo getconnectioncount getmempoolinfo getblockcount getnetworkinfo getnettotals )
+
+for command in "${rpcCommands[@]}"
+do
+	echo $command
+	mkdir -p ./$command
+	/opt/coins/nodes/myriad/bin/myriadcoin-cli -rpcuser=rpc -rpcpassword=rpc -rpcport=8043 $command > ./$command/$FILENAME
+	cp ./$command/$FILENAME ./$command/latest.json
+done
