@@ -37,3 +37,6 @@ getmemoryinfo
 ### Hourly
 `/outputfolder/rpc-call/hourly/yymmddhh.json`
 
+## Current use
+
+https://xmy-history.coinid.org/
