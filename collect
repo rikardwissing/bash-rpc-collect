@@ -3,7 +3,7 @@
 FILENAME_H=$(date +%Y%m%d%H).json
 FILENAME_D=$(date +%Y%m%d).json
 
-rpcCommands=( getpeerinfo getmininginfo getconnectioncount getmempoolinfo getblockcount getnetworkinfo getnettotals getdifficulty getblockchaininfo gettxoutsetinfo getbestblockhash getchaintips )
+rpcCommands=( getpeerinfo getmininginfo getconnectioncount getmempoolinfo getblockcount getnetworkinfo getnettotals getdifficulty getblockchaininfo gettxoutsetinfo getbestblockhash getchaintips getmemoryinfo )
 
 for command in "${rpcCommands[@]}"
 do
