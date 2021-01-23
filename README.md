@@ -39,4 +39,39 @@ getmemoryinfo
 
 ## Current use
 
+### Myriad
 https://xmy-history.coinid.org/
+
+#### Blockchain
+
+https://xmy-history.coinid.org/getbestblockhash/latest.json
+
+https://xmy-history.coinid.org/getblockcount/latest.json
+
+https://xmy-history.coinid.org/getblockchaininfo/latest.json
+
+https://xmy-history.coinid.org/getchaintips/latest.json
+
+https://xmy-history.coinid.org/getdifficulty/latest.json
+
+https://xmy-history.coinid.org/getmempoolinfo/latest.json
+
+https://xmy-history.coinid.org/gettxoutsetinfo/latest.json
+
+#### Control
+
+https://xmy-history.coinid.org/getmemoryinfo/latest.json
+
+#### Mining
+
+https://xmy-history.coinid.org/getmininginfo/latest.json
+
+#### Network
+
+https://xmy-history.coinid.org/getconnectioncount/latest.json
+
+https://xmy-history.coinid.org/getnetworkinfo/latest.json
+
+https://xmy-history.coinid.org/getnettotals/latest.json
+
+https://xmy-history.coinid.org/getpeerinfo/latest.json
