@@ -1,0 +1,37 @@
+#!/bin/bash
+
+getBlockHash="$2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 getblockhash"
+getBlock="$2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 getblock"
+blockCount=$($2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 getblockcount)
+startBlock=$((blockCount - 1000))
+echo $blockCount
+echo $startBlock
+
+fields=( pow_algo_id, pow_algo, difficulty, size, weight, time )
+
+declare -A results
+
+for i in {0..1000}
+do
+	blockIndex=$((startBlock + i))
+	echo $blockIndex
+	block=$($getBlock $($getBlockHash $blockIndex))
+
+	for field in "${fields[@]}"
+	do
+		value="${block#*$field\": }"
+		value="${value%%,*}"
+		if [ $i != "0" ]; then
+			results[$field]=${results[$field]},
+		fi
+		results[$field]=${results[$field]}$value
+	done
+done
+
+echo $block
+
+for field in "${fields[@]}"
+do
+	fileName=$1/$field.json
+	echo "[${results[$field]}]" > $fileName
+done
