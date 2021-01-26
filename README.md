@@ -89,3 +89,5 @@ https://xmy-history.coinid.org/latestblocks/10000/size.json
 https://xmy-history.coinid.org/latestblocks/10000/weight.json
 
 https://xmy-history.coinid.org/latestblocks/10000/time.json
+
+For less data replace 10000 with 1000 or 100.
