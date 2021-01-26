@@ -75,3 +75,17 @@ https://xmy-history.coinid.org/getnetworkinfo/latest.json
 https://xmy-history.coinid.org/getnettotals/latest.json
 
 https://xmy-history.coinid.org/getpeerinfo/latest.json
+
+#### Data for graphs
+
+https://xmy-history.coinid.org/latestblocks/10000/pow_algo_id.json
+
+https://xmy-history.coinid.org/latestblocks/10000/pow_algo.json
+
+https://xmy-history.coinid.org/latestblocks/10000/difficulty.json
+
+https://xmy-history.coinid.org/latestblocks/10000/size.json
+
+https://xmy-history.coinid.org/latestblocks/10000/weight.json
+
+https://xmy-history.coinid.org/latestblocks/10000/time.json
