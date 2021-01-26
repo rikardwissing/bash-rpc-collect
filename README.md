@@ -6,6 +6,8 @@ A simple bash script to save data from bitcoin (or any other similar coin) rpc c
 
 `collect /outputfolder /path/to/bitcoin-cli rpc-user rpc-password port`
 
+`collect_latest_blocks /outputfolder /path/to/bitcoin-cli rpc-user rpc-password port num_blocks`
+
 Add it to cron for instance.
 
 ## RPC calls
