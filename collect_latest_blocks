@@ -8,8 +8,9 @@ blockHash=$($2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 getbestblockhash)
 blockWindow=$6
 
 mkdir -p $1
-fields=( pow_algo_id pow_algo difficulty size weight time )
+fields=( pow_algo_id pow_algo difficulty size weight time mediantime )
 
+echo $($getBlock $blockHash) > $1/best_block.json
 echo $blockCount > $1/block_count.json
 
 declare -A results
