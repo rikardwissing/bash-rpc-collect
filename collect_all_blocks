@@ -1,0 +1,65 @@
+#!/bin/bash
+
+getBlockHash="$2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 getblockhash"
+getBlock="$2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 getblock"
+
+blockCount=$($2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 getblockcount)
+
+mkdir -p $1
+fields=( pow_algo_id pow_algo difficulty size weight time mediantime tx )
+
+declare -A results
+
+lastPage=$(ls -d $1/*/ | wc -l)
+if [ $lastPage != "0" ]; then
+	lastPage=$(($lastPage-1))
+fi
+
+perPage=10000
+startIndex=$((1+lastPage*perPage))
+startBlock=$((startIndex-1))
+blockHash=$($getBlockHash $startBlock)
+
+for ((i=$startIndex;i<=$blockCount;i++))
+do
+	echo $i
+
+	block=$($getBlock $blockHash)
+	blockHash="${block#*nextblockhash\": \"}"
+        blockHash="${blockHash%%\"*}"
+
+	for field in "${fields[@]}"
+	do
+		value="${block#*$field\": }"
+		value="${value%%\]*}"
+
+		if [ $field == "tx" ]; then
+			value=$(echo $value | awk -F, '{print NF-1}')
+		fi
+
+		value="${value%%,*}"
+
+		if (( (i-1) % perPage )); then
+			results[$field]=$value,${results[$field]}
+		else
+			results[$field]=$value
+		fi
+	done
+
+        if ! (( i % perPage )); then
+                echo "Reached checkpoint"
+
+		page=$((i / perPage))
+                directory=$1/$page
+                mkdir -p $directory
+
+                for field in "${fields[@]}"
+                do
+                        fileName=$directory/$field.json
+                        echo "Writing $fileName"
+                        echo "[${results[$field]}]" > $fileName
+                done
+
+		echo $page > $1/last_page.json
+        fi
+done
