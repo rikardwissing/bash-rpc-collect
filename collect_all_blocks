@@ -4,13 +4,13 @@ getBlockHash="$2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 getblockhash"
 getBlock="$2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 getblock"
 
 blockCount=$($2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 getblockcount)
-
+blockHash=$($getBlockHash $blockCount)
 mkdir -p $1
 
 echo $($getBlock $blockHash) > $1/best_block.json
 echo $blockCount > $1/block_count.json
 
-fields=( pow_algo_id pow_algo difficulty size weight time mediantime tx )
+fields=( pow_algo_id pow_algo difficulty size weight time mediantime tx height )
 
 declare -A results
 
@@ -29,7 +29,8 @@ do
 	echo $i
 
 	block=$($getBlock $blockHash)
-	blockHash="${block#*nextblockhash\": \"}"
+        blockHash="${block: -200}"
+        blockHash="${blockHash#*nextblockhash\": \"}"
         blockHash="${blockHash%%\"*}"
 
 	for field in "${fields[@]}"
@@ -44,7 +45,7 @@ do
 		value="${value%%,*}"
 
 		if (( (i-1) % perPage )); then
-			results[$field]=$value,${results[$field]}
+			results[$field]=${results[$field]},$value
 		else
 			results[$field]=$value
 		fi
