@@ -8,9 +8,5 @@ rpcCommands=( getpeerinfo getmininginfo getconnectioncount getmempoolinfo getblo
 for command in "${rpcCommands[@]}"
 do
 	echo $command
-	mkdir -p $1/$command/hourly
-	mkdir -p $1/$command/daily
-	$2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 $command > $1/$command/hourly/$FILENAME_H
-        cp $1/$command/hourly/$FILENAME_H $1/$command/daily/$FILENAME_D
-	cp $1/$command/hourly/$FILENAME_H $1/$command/latest.json
+	$2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 $command > $1/$command/latest.json
 done
