@@ -6,6 +6,10 @@ getBlock="$2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 getblock"
 blockCount=$($2 -rpcuser=$3 -rpcpassword=$4 -rpcport=$5 getblockcount)
 
 mkdir -p $1
+
+echo $($getBlock $blockHash) > $1/best_block.json
+echo $blockCount > $1/block_count.json
+
 fields=( pow_algo_id pow_algo difficulty size weight time mediantime tx )
 
 declare -A results
@@ -31,9 +35,9 @@ do
 	for field in "${fields[@]}"
 	do
 		value="${block#*$field\": }"
-		value="${value%%\]*}"
 
 		if [ $field == "tx" ]; then
+			value="${value%%\]*}"
 			value=$(echo $value | awk -F, '{print NF-1}')
 		fi
 
