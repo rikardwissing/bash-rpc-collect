@@ -24,15 +24,21 @@ startIndex=$((1+lastPage*perPage))
 startBlock=$((startIndex-1))
 blockHash=$($getBlockHash $startBlock)
 
-for ((i=$startIndex;i<=$blockCount;i++))
+for ((i=$startIndex; ;i++))
 do
 	echo $i
 
 	block=$($getBlock $blockHash)
         blockHash="${block: -200}"
-        blockHash="${blockHash#*nextblockhash\": \"}"
-        blockHash="${blockHash%%\"*}"
 
+	if [[ $blockHash == *"nextblockhash"* ]]; then
+		blockHash="${blockHash#*nextblockhash\": \"}"
+		blockHash="${blockHash%%\"*}"
+	else
+ 		blockHash=""
+	fi
+
+	echo $blockHash
 	for field in "${fields[@]}"
 	do
 		value="${block#*$field\": }"
@@ -51,10 +57,10 @@ do
 		fi
 	done
 
-        if ! (( i % perPage )); then
+ 	if (( i % perPage == 0 )); then
                 echo "Reached checkpoint"
 
-		page=$((i / perPage))
+		page=$(((i+perPage-1) / perPage))
                 directory=$1/$page
                 mkdir -p $directory
 
@@ -66,5 +72,24 @@ do
                 done
 
 		echo $page > $1/last_page.json
-        fi
+	fi
+
+	if [[ $blockHash == "" ]]; then
+		echo "Last one!"
+
+                page=$(((i+perPage-1) / perPage))
+                directory=$1/$page
+                mkdir -p $directory
+
+                for field in "${fields[@]}"
+                do
+                        fileName=$directory/$field.json
+                        echo "Writing $fileName"
+                        echo "[${results[$field]}]" > $fileName
+                done
+
+                echo $page > $1/last_page.json
+
+		break
+	fi
 done
